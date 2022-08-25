@@ -10,9 +10,14 @@ if (isset($_POST['create'])) {
         $type = $_FILES['foto']['type'];
         $name = $_FILES['foto']['name'];
         $size = $_FILES['foto']['size'];
-        $img = fopen($_FILES['foto']['tmp_name'],'r');
-        $binImg = fread($img, $size);
-        $binImg = mysqli_escape_string($conexion,$binImg);
+        if ($_FILES['foto']['tmp_name'] == "") {
+            $binImg = "";
+            $type = "image/jpeg";
+        } else {
+            $img = fopen($_FILES['foto']['tmp_name'],'r');
+            $binImg = fread($img, $size);
+            $binImg = mysqli_escape_string($conexion,$binImg);
+        };
     };
     
     $validar = "SELECT * FROM usuarios WHERE email = '$email' ";
@@ -83,7 +88,7 @@ if (isset($_POST['create'])) {
                     </div>
                     <div class="mb-3">
                       <input type="file"
-                        class="form-control" name="foto" id="foto" aria-describedby="helpId" placeholder="Photo" required>
+                        class="form-control" name="foto" id="foto" aria-describedby="helpId" placeholder="Photo">
                     </div>
                     <button type="submit" class="btn btn-primary w-100" name="create">Start coding now</button>
                     <div>
